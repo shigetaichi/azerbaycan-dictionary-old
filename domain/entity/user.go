@@ -10,10 +10,16 @@ import (
 
 type User struct {
 	domain.SoftDeleteModel
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	Email       string `json:"email"`
+	Password    string `json:"password"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	AvatarImage string `json:"avatar_image"`
+	Payment     int    `json:"payment"`
 
 	RecoveryToken *string `json:"-"`
+
+	Words []*Word `gorm:"many2many:bookmarks;"`
 }
 
 func NewUser(verr *xerrors.Validation, dto *request.UserCreate) (*User, error) {
