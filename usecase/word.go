@@ -11,6 +11,7 @@ import (
 type IWord interface {
 	Create(ctx context.Context, userId uint, req *request.WordCreate) (uint, error)
 	GetAll(ctx context.Context, keyword string, paging *util.Paging) ([]*entity.Word, uint, error)
+	Update(ctx context.Context, word *entity.Word) error
 }
 type word struct {
 	wordRepo repository.IWord
@@ -37,4 +38,11 @@ func (w word) GetAll(ctx context.Context, keyword string, paging *util.Paging) (
 		return nil, 0, err
 	}
 	return res, count, nil
+}
+
+func (w word) Update(ctx context.Context, word *entity.Word) error {
+	if err := w.wordRepo.Update(ctx, word); err != nil {
+		return err
+	}
+	return nil
 }

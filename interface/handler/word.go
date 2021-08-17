@@ -3,6 +3,8 @@ package handler
 import (
 	"github.com/gin-gonic/gin"
 	jwt "github.com/ken109/gin-jwt"
+	"go-ddd/domain"
+	"go-ddd/domain/entity"
 	"go-ddd/pkg/util"
 	"go-ddd/resource/request"
 	"go-ddd/resource/response"
@@ -21,6 +23,8 @@ func NewWord(route *gin.RouterGroup, wuc usecase.IWord) {
 
 	get(route, "", handler.GetAll)
 	post(route, "", handler.Create)
+	put(route, "", handler.Update)
+	patch(route, "", handler.UpdateStar)
 }
 
 func (w Word) Create(c *gin.Context) error {
@@ -51,5 +55,44 @@ func (w Word) GetAll(c *gin.Context) error {
 		Count: count,
 		Words: res,
 	})
+	return nil
+}
+
+func (w Word) Update(c *gin.Context) error {
+	var req request.WordUpdate
+	if !bind(c, &req) {
+		return nil
+	}
+
+	if err := w.wordUseCase.Update(newCtx(), &entity.Word{
+		SoftDeleteModel: domain.SoftDeleteModel{
+			ID: req.Id,
+		},
+		Name:        req.Name,
+		Description: req.Description,
+		Star:        req.Star,
+	}); err != nil {
+		return err
+	}
+
+	c.Status(http.StatusOK)
+	return nil
+}
+
+func (w Word) UpdateStar(c *gin.Context) error {
+	var req request.WordUpdateStar
+	if !bind(c, &req) {
+		return nil
+	}
+
+	if err := w.wordUseCase.Update(newCtx(), &entity.Word{
+		SoftDeleteModel: domain.SoftDeleteModel{
+			ID: req.Id,
+		},
+		Star: req.Star,
+	}); err != nil {
+		return err
+	}
+	c.Status(http.StatusOK)
 	return nil
 }

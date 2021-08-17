@@ -43,3 +43,12 @@ func (w word) GetAll(ctx context.Context, keyword string, paging *util.Paging) (
 	}
 	return res, count, nil
 }
+
+func (w word) Update(ctx context.Context, word *entity.Word) error {
+	db := rdb.Get(ctx)
+
+	if err := db.Model(&word).Updates(word).Error; err != nil {
+		return err
+	}
+	return nil
+}
