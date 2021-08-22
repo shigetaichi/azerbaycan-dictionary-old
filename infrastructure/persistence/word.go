@@ -3,6 +3,7 @@ package persistence
 import (
 	"context"
 	"github.com/pkg/errors"
+	"go-ddd/domain"
 	"go-ddd/domain/entity"
 	"go-ddd/domain/repository"
 	"go-ddd/pkg/rdb"
@@ -42,6 +43,24 @@ func (w word) GetAll(ctx context.Context, keyword string, paging *util.Paging) (
 		return nil, 0, err
 	}
 	return res, count, nil
+}
+
+func (w word) GetById(ctx context.Context, id uint) (*entity.Word, error) {
+	db := rdb.Get(ctx)
+
+	var res entity.Word
+	if err := db.
+		Model(&entity.Word{}).
+		Where(&entity.Word{
+			SoftDeleteModel: domain.SoftDeleteModel{
+				ID: id,
+			},
+		}).
+		Last(&res).
+		Error; err != nil {
+		return nil, err
+	}
+	return &res, nil
 }
 
 func (w word) Update(ctx context.Context, word *entity.Word) error {

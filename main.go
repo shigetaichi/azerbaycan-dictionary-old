@@ -46,7 +46,7 @@ func main() {
 				AllowOriginFunc: func(origin string) bool {
 					return true
 				},
-				AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type"},
+				AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type", "Authorization"},
 				AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"},
 				AllowCredentials: true,
 				MaxAge:           12 * time.Hour,

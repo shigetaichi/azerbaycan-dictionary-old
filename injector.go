@@ -2,8 +2,6 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	jwt "github.com/ken109/gin-jwt"
-	"go-ddd/constant"
 	"go-ddd/infrastructure/email"
 	"go-ddd/infrastructure/persistence"
 	"go-ddd/interface/handler"
@@ -28,7 +26,6 @@ func inject(engine *gin.Engine) {
 	handler.NewUser(user, userUseCase)
 	{
 		word := user.Group("word")
-		word.Use(jwt.Verify(constant.DefaultRealm))
 		handler.NewWord(word, wordUseCase)
 	}
 }

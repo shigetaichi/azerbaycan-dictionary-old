@@ -3,13 +3,16 @@ package handler
 import (
 	"github.com/gin-gonic/gin"
 	jwt "github.com/ken109/gin-jwt"
+	"go-ddd/constant"
 	"go-ddd/domain"
 	"go-ddd/domain/entity"
 	"go-ddd/pkg/util"
+	"go-ddd/pkg/xerrors"
 	"go-ddd/resource/request"
 	"go-ddd/resource/response"
 	"go-ddd/usecase"
 	"net/http"
+	"strconv"
 )
 
 type Word struct {
@@ -22,6 +25,8 @@ func NewWord(route *gin.RouterGroup, wuc usecase.IWord) {
 	}
 
 	get(route, "", handler.GetAll)
+	get(route, "id/:id", handler.GetById)
+	route.Use(jwt.Verify(constant.DefaultRealm))
 	post(route, "", handler.Create)
 	put(route, "", handler.Update)
 	patch(route, "", handler.UpdateStar)
@@ -55,6 +60,19 @@ func (w Word) GetAll(c *gin.Context) error {
 		Count: count,
 		Words: res,
 	})
+	return nil
+}
+func (w Word) GetById(c *gin.Context) error {
+	wid, err := strconv.ParseUint(c.Param("id"), 10, 64)
+	if err != nil {
+		return xerrors.NewExpected(http.StatusNotFound, "Invalid Word Id")
+	}
+	res, err := w.wordUseCase.GetById(newCtx(), uint(wid))
+	if err != nil {
+		return err
+	}
+
+	c.JSON(http.StatusOK, res)
 	return nil
 }
 
