@@ -1,5 +1,9 @@
 FROM golang:1.16 as builder
 
+RUN apk update \
+  && apk add --no-cache git curl make gcc g++ \
+  && go get github.com/oxequa/realize
+
 WORKDIR /go/src
 
 COPY ./go.mod ./go.sum ./
