@@ -15,7 +15,6 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/ken109/gin-jwt"
-	"go-ddd/config"
 	"go-ddd/constant"
 	"go-ddd/infrastructure/log"
 	"go-ddd/interface/middleware"
@@ -28,7 +27,8 @@ func main() {
 		jwt.Option{
 			Realm:            constant.DefaultRealm,
 			SigningAlgorithm: jwt.HS256,
-			SecretKey:        []byte(config.Env.App.Secret),
+			SecretKey:        []byte(os.Getenv("GIN_JWT_SECRET")),
+			//SecretKey:        []byte(config.Env.App.Secret),
 		},
 	)
 	if err != nil {
