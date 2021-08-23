@@ -65,7 +65,7 @@ func main() {
 	// serve
 	var port = ":8080"
 	if portEnv := os.Getenv("PORT"); portEnv != "" {
-		port = portEnv
+		port = ":" + portEnv
 	}
 
 	srv := &http.Server{
