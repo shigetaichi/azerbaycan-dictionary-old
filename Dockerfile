@@ -24,5 +24,6 @@ COPY --from=builder /go/src/app /go/src/app
 
 #ENV DOTENV_PATH=/go/src/.env
 ENV GIN_MODE=release
+ENV PORT=${PORT}
 
 CMD ["/go/src/app"]
