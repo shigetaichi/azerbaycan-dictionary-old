@@ -5,4 +5,4 @@ build:
       dockerfile: Dockerfile
       target: builder
 run:
-  web: /app
+  web: "/go/src/app"
