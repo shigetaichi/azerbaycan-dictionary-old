@@ -27,6 +27,7 @@ func NewUser(route *gin.RouterGroup, uuc usecase.IUser) {
 
 	auth := route.Group("")
 	auth.Use(jwt.Verify(constant.DefaultRealm))
+	get(auth, "login", handler.LoginCheck)
 	get(auth, "id/:id", handler.GetById)
 }
 
@@ -108,6 +109,11 @@ func (u User) Login(c *gin.Context) error {
 	}
 
 	c.JSON(http.StatusOK, res)
+	return nil
+}
+
+func (u User) LoginCheck(c *gin.Context) error {
+	c.Status(http.StatusOK)
 	return nil
 }
 

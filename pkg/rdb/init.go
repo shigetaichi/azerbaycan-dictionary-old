@@ -5,6 +5,7 @@ import (
 	"go-ddd/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"os"
 )
 
 var db *gorm.DB
@@ -19,7 +20,7 @@ func init() {
 		con = fmt.Sprintf("tcp(%s:%d)", config.Env.DB.Host, config.Env.DB.Port)
 	}
 
-	dsn := fmt.Sprintf(
+	_ = fmt.Sprintf(
 		"%s:%s@%s/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		config.Env.DB.User,
 		config.Env.DB.Password,
@@ -27,8 +28,8 @@ func init() {
 		config.Env.DB.Name,
 	)
 
-	//db, err = gorm.Open(mysql.Open(os.Getenv("DATA_SOURCE")), &gorm.Config{})
-	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err = gorm.Open(mysql.Open(os.Getenv("DATA_SOURCE")), &gorm.Config{})
+	//db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
