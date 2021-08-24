@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"go-ddd/config"
 	"go-ddd/infrastructure/email"
 	"go-ddd/infrastructure/persistence"
 	"go-ddd/interface/handler"
@@ -27,8 +28,8 @@ func main() {
 		jwt.Option{
 			Realm:            constant.DefaultRealm,
 			SigningAlgorithm: jwt.HS256,
-			SecretKey:        []byte(os.Getenv("GIN_JWT_SECRET")),
-			//SecretKey:        []byte(config.Env.App.Secret),
+			//SecretKey:        []byte(os.Getenv("GIN_JWT_SECRET")),
+			SecretKey: []byte(config.Env.App.Secret),
 		},
 	)
 	if err != nil {

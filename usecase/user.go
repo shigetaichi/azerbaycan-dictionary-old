@@ -17,6 +17,7 @@ import (
 
 type IUser interface {
 	Create(ctx context.Context, req *request.UserCreate) (uint, error)
+	GetById(ctx context.Context, id uint) (*entity.User, error)
 
 	ResetPasswordRequest(
 		ctx context.Context,
@@ -66,6 +67,15 @@ func (u user) Create(ctx context.Context, req *request.UserCreate) (uint, error)
 	}
 
 	return id, nil
+}
+
+func (u user) GetById(ctx context.Context, id uint) (*entity.User, error) {
+	user, err := u.userRepo.GetById(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
 }
 
 func (u user) ResetPasswordRequest(
@@ -146,7 +156,8 @@ func (u user) Login(ctx context.Context, req *request.UserLogin) (*response.User
 		var res response.UserLogin
 
 		res.Token, res.RefreshToken, err = jwt.IssueToken(constant.DefaultRealm, jwt.Claims{
-			"id": user.ID,
+			"id":    user.ID,
+			"email": user.Email,
 		})
 		if err != nil {
 			return nil, errors.WithStack(err)

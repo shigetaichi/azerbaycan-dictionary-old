@@ -1,6 +1,8 @@
 package handler
 
 import (
+	jwt "github.com/ken109/gin-jwt"
+	"go-ddd/constant"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -22,6 +24,10 @@ func NewUser(route *gin.RouterGroup, uuc usecase.IUser) {
 	get(route, "refresh-token", handler.RefreshToken)
 	patch(route, "reset-password-request", handler.ResetPasswordRequest)
 	patch(route, "reset-password", handler.ResetPassword)
+
+	auth := route.Group("")
+	auth.Use(jwt.Verify(constant.DefaultRealm))
+	get(auth, "id/:id", handler.GetById)
 }
 
 func (u User) Create(c *gin.Context) error {
@@ -69,6 +75,18 @@ func (u User) ResetPassword(c *gin.Context) error {
 	}
 
 	c.Status(http.StatusOK)
+	return nil
+}
+
+func (u User) GetById(c *gin.Context) error {
+	uid := jwt.GetClaims(c)["id"].(float64)
+
+	res, err := u.userUseCase.GetById(newCtx(), uint(uid))
+	if err != nil {
+		return err
+	}
+
+	c.JSON(http.StatusOK, res)
 	return nil
 }
 

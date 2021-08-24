@@ -2,6 +2,7 @@ package persistence
 
 import (
 	"context"
+	"go-ddd/domain"
 
 	"github.com/pkg/errors"
 	"go-ddd/domain/entity"
@@ -29,6 +30,24 @@ func (u user) GetByEmail(ctx context.Context, email string) (*entity.User, error
 
 	var dest entity.User
 	err := db.Where(&entity.User{Email: email}).First(&dest).Error
+	if err != nil {
+		return nil, dbError(err)
+	}
+	return &dest, nil
+}
+
+func (u user) GetById(ctx context.Context, id uint) (*entity.User, error) {
+	db := rdb.Get(ctx)
+	var dest entity.User
+	err := db.
+		Model(&entity.User{}).
+		Where(&entity.User{
+			SoftDeleteModel: domain.SoftDeleteModel{
+				ID: id,
+			},
+		}).
+		First(&dest).
+		Error
 	if err != nil {
 		return nil, dbError(err)
 	}
