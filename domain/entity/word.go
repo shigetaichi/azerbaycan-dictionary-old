@@ -8,6 +8,7 @@ import (
 type Word struct {
 	domain.SoftDeleteModel
 	Name        string `json:"name"`
+	Translation string `json:"translation"`
 	Star        int    `json:"star"`
 	Description string `json:"description"`
 	UserID      uint   `json:"user_id"`
@@ -22,6 +23,7 @@ func NewWord(userId uint, dto *request.WordCreate) *Word {
 	return &Word{
 		UserID:      userId,
 		Name:        dto.Name,
+		Translation: dto.Translation,
 		Description: dto.Description,
 		Star:        0,
 	}
