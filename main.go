@@ -104,10 +104,12 @@ func inject(engine *gin.Engine) {
 	// persistence
 	userPersistence := persistence.NewUser()
 	wordPersistence := persistence.NewWord()
+	draftPersistence := persistence.NewDraft()
 
 	// ----- use case -----
 	userUseCase := usecase.NewUser(emailDriver, userPersistence)
 	wordUseCase := usecase.NewWord(wordPersistence)
+	draftUseCase := usecase.NewDraft(draftPersistence, wordPersistence)
 
 	// ----- handler -----
 	user := engine.Group("user")
@@ -115,5 +117,7 @@ func inject(engine *gin.Engine) {
 	{
 		word := user.Group("word")
 		handler.NewWord(word, wordUseCase)
+		draft := user.Group("draft")
+		handler.NewDraft(draft, draftUseCase)
 	}
 }
