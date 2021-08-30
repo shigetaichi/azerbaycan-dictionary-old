@@ -114,3 +114,17 @@ func (w Word) UpdateStar(c *gin.Context) error {
 	c.Status(http.StatusOK)
 	return nil
 }
+
+func (w Word) Delete(c *gin.Context) error {
+	wid, err := strconv.ParseUint(c.Param("id"), 10, 64)
+	if err != nil {
+		return xerrors.NewExpected(http.StatusNotFound, "Invalid Word Id")
+	}
+	err = w.wordUseCase.Delete(newCtx(), uint(wid))
+	if err != nil {
+		return err
+	}
+
+	c.Status(http.StatusOK)
+	return nil
+}

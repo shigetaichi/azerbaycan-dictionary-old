@@ -13,6 +13,7 @@ type IWord interface {
 	GetAll(ctx context.Context, keyword string, paging *util.Paging) ([]*entity.Word, uint, error)
 	GetById(ctx context.Context, id uint) (*entity.Word, error)
 	Update(ctx context.Context, word *entity.Word) error
+	Delete(ctx context.Context, id uint) error
 }
 type word struct {
 	wordRepo repository.IWord
@@ -51,6 +52,13 @@ func (w word) GetById(ctx context.Context, id uint) (*entity.Word, error) {
 
 func (w word) Update(ctx context.Context, word *entity.Word) error {
 	if err := w.wordRepo.Update(ctx, word); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (w word) Delete(ctx context.Context, id uint) error {
+	if err := w.wordRepo.Delete(ctx, id); err != nil {
 		return err
 	}
 	return nil

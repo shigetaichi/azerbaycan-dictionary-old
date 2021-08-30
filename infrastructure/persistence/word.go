@@ -71,3 +71,16 @@ func (w word) Update(ctx context.Context, word *entity.Word) error {
 	}
 	return nil
 }
+
+func (w word) Delete(ctx context.Context, id uint) error {
+	db := rdb.Get(ctx)
+
+	if err := db.Model(&entity.Word{}).Delete(&entity.Word{
+		SoftDeleteModel: domain.SoftDeleteModel{
+			ID: id,
+		},
+	}).Error; err != nil {
+		return err
+	}
+	return nil
+}
