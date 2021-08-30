@@ -3,7 +3,6 @@ package handler
 import (
 	"github.com/gin-gonic/gin"
 	jwt "github.com/ken109/gin-jwt"
-	"go-ddd/constant"
 	"go-ddd/domain"
 	"go-ddd/domain/entity"
 	"go-ddd/pkg/util"
@@ -24,7 +23,6 @@ func NewDraft(route *gin.RouterGroup, duc usecase.IDraft) {
 		draftUseCase: duc,
 	}
 
-	route.Use(jwt.Verify(constant.DefaultRealm))
 	get(route, "", handler.GetAll)
 	get(route, "id/:id", handler.GetById)
 	post(route, "", handler.Create)

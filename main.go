@@ -118,6 +118,7 @@ func inject(engine *gin.Engine) {
 		word := user.Group("word")
 		handler.NewWord(word, wordUseCase)
 		draft := user.Group("draft")
+		draft.Use(jwt.Verify(constant.DefaultRealm))
 		handler.NewDraft(draft, draftUseCase)
 	}
 }
