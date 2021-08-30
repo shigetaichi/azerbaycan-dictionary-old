@@ -18,7 +18,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"sevmək\",\n    \"description\": \"恋する、愛する、恋、愛\"\n}",
+									"raw": "{\n    \"name\": \"sevmək\",\n    \"translation\": \"\",\n    \"description\": \"恋する、愛する、恋、愛\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -45,7 +45,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"id\": 1,\n    \"name\": \"qq\",\n    \"description\": \"asadf\",\n    \"star\": 0\n}",
+									"raw": "{\n    \"id\": 1,\n    \"name\": \"qq\",\n    \"translation\": \"\",\n    \"description\": \"asadf\",\n    \"star\": 0\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -91,6 +91,32 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base}}/user/word/id/:id",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"user",
+										"word",
+										"id",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"auth": {
@@ -121,6 +147,171 @@
 									""
 								]
 							}
+						}
+					]
+				},
+				{
+					"name": "Draft",
+					"item": [
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"sevmək\",\n    \"translation\": \"\",\n    \"description\": \"恋する、愛する、恋、愛\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base}}/user/draft",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"user",
+										"draft"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 1,\n    \"name\": \"sevmək\",\n    \"translation\": \"\",\n    \"description\": \"恋する、愛する、恋、愛\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base}}/user/draft",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"user",
+										"draft"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetAll",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{base}}/user/draft",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"user",
+										"draft"
+									],
+									"query": [
+										{
+											"key": "length",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "keyword",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetById",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base}}/user/draft/id/:id",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"user",
+										"draft",
+										"id",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Publish",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{base}}/user/draft/id/:id",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"user",
+										"draft",
+										"id",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
